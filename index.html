@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     
     <!-- Fonte Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS (CDN para arquivo único) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -79,32 +79,32 @@
         <section id="tab-instalacao" class="aba-conteudo space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <button onclick="executarAcao('instalar-agente', 'Instalando Agente em Background...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">1. Instalar Agente Fixo</h3>
-                    <p class="text-xs text-slate-500">Baixa em C:\Temp e agenda inicio automático no boot.</p>
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">1. Instalar Agente Fixo</h3>
+                    <p class="text-xs text-slate-500">Baixa em C:\\Temp e agenda início automático no boot do sistema.</p>
                 </button>
-                <button onclick="executarAcao('ativar-admin', 'Ativando Administrador...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">2. Ativar Administrador</h3>
-                    <p class="text-xs text-slate-500">Ativa a conta e define senha padrão.</p>
+                <button onclick="executarAcao('ativar-admin', 'Ativando Conta Administrador Local...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">2. Ativar Administrador</h3>
+                    <p class="text-xs text-slate-500">Ativa a conta padrão e define a senha "conterplan@2016".</p>
                 </button>
                 <button onclick="executarAcao('winget-upgrade', 'Atualizando Apps via WinGet...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">3. WinGet Upgrade All</h3>
-                    <p class="text-xs text-slate-500">Atualiza todos os aplicativos de terceiros do sistema.</p>
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">3. WinGet Upgrade All</h3>
+                    <p class="text-xs text-slate-500">Atualiza todos os aplicativos instalados via WinGet de forma silenciosa.</p>
                 </button>
-                <button onclick="executarAcao('renomear-disco', 'Configurando Disco e SNMP...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">4. Disco Windows & SNMP</h3>
-                    <p class="text-xs text-slate-500">Renomeia C: e instala feature SNMP do Windows.</p>
+                <button onclick="executarAcao('renomear-disco', 'Configurando rótulo do disco e ativando SNMP...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">4. Renomear C: & SNMP</h3>
+                    <p class="text-xs text-slate-500">Define o nome para "Windows" e instala a feature SNMP.</p>
                 </button>
-                <button onclick="executarAcao('configurar-wallpaper', 'Configurando Papel de Parede...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">7. Papel de Parede</h3>
-                    <p class="text-xs text-slate-500">Slideshow ThemeC e Cor de destaque automática.</p>
+                <button onclick="executarAcao('configurar-wallpaper', 'Configurando Papel de Parede Corporativo...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">7. Papel de Parede</h3>
+                    <p class="text-xs text-slate-500">Ativa slideshow da pasta ThemeC e aplica cor de destaque Automática.</p>
                 </button>
-                <button onclick="executarAcao('instalar-office', 'Instalando Office 365...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">8. Office 365</h3>
-                    <p class="text-xs text-slate-500">Baixa e executa OfficeSetup.exe silenciosamente.</p>
+                <button onclick="executarAcao('instalar-office', 'Iniciando Instalação Silenciosa do Office 365...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">8. Instalar Office 365</h3>
+                    <p class="text-xs text-slate-500">Baixa instalador oficial na pasta temporária e o executa silenciosamente.</p>
                 </button>
-                <button onclick="executarAcao('instalar-pdf', 'Instalando leitores PDF...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">9. Foxit & PDF24</h3>
-                    <p class="text-xs text-slate-500">Instala via WinGet no usuário logado.</p>
+                <button onclick="executarAcao('instalar-pdf', 'Instalando leitores de PDF via WinGet...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">9. Foxit & PDF24</h3>
+                    <p class="text-xs text-slate-500">Instala os leitores de PDF corporativos no usuário logado.</p>
                 </button>
             </div>
 
@@ -112,23 +112,23 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <!-- Alterar DNS -->
                 <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                    <h3 class="font-semibold mb-2">5. Alterar DNS (DNS 2 Fixo 8.8.8.8)</h3>
+                    <h3 class="font-semibold mb-2">5. Alterar DNS da Rede</h3>
                     <div class="flex gap-2">
                         <input type="text" id="inputDns1" placeholder="DNS 1 (Ex: 10.0.0.1)" class="input-padrao w-full">
-                        <button onclick="enviarFormulario('alterar-dns', { dns1: document.getElementById('inputDns1').value }, 'Alterando DNS...')" class="btn-primario whitespace-nowrap">Aplicar</button>
+                        <button onclick="executarAcao('alterar-dns', 'Alterando DNS...', { dns1: document.getElementById('inputDns1').value })" class="btn-primario whitespace-nowrap">Aplicar</button>
                     </div>
                 </div>
 
                 <!-- Active Directory -->
                 <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                    <h3 class="font-semibold mb-2">6. Conectar ao Domínio AD</h3>
+                    <h3 class="font-semibold mb-2">6. Conectar ao Domínio Active Directory</h3>
                     <div class="space-y-2">
-                        <input type="text" id="adDomain" placeholder="Domínio (Ex: meudominio.local)" class="input-padrao w-full">
+                        <input type="text" id="adDomain" placeholder="Domínio (Ex: corporativo.local)" class="input-padrao w-full">
                         <div class="flex gap-2">
-                            <input type="text" id="adUser" placeholder="Usuário" class="input-padrao w-1/2">
+                            <input type="text" id="adUser" placeholder="Usuário AD" class="input-padrao w-1/2">
                             <input type="password" id="adPass" placeholder="Senha" class="input-padrao w-1/2">
                         </div>
-                        <button onclick="enviarFormulario('ingressar-dominio', { dominio: document.getElementById('adDomain').value, usuario: document.getElementById('adUser').value, senha: document.getElementById('adPass').value }, 'Ingressando no Domínio...')" class="btn-primario w-full">Ingressar (Requer Reiniciar Após)</button>
+                        <button onclick="executarAcao('ingressar-dominio', 'Ingressando no Domínio...', { dominio: document.getElementById('adDomain').value, usuario: document.getElementById('adUser').value, senha: document.getElementById('adPass').value })" class="btn-primario w-full">Ingressar (Requer Reinicialização)</button>
                     </div>
                 </div>
             </div>
@@ -137,34 +137,34 @@
         <!-- ABA 2: MANUTENÇÃO -->
         <section id="tab-manutencao" class="aba-conteudo space-y-4 hidden">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <button onclick="executarAcao('limpeza-disco', 'Executando Cleanmgr...')" class="card-acao border-amber-200 dark:border-amber-900">
+                <button onclick="executarAcao('limpeza-disco', 'Iniciando Limpeza de Disco Avançada...')" class="card-acao border-amber-200 dark:border-amber-900">
                     <h3 class="font-semibold mb-1 text-amber-600 dark:text-amber-400">1. Limpeza Profunda</h3>
-                    <p class="text-xs text-slate-500">Configura e roda Sagerun:10 do Cleanmgr.</p>
+                    <p class="text-xs text-slate-500">Configura o cleanmgr para marcar tudo e executa silenciosamente.</p>
                 </button>
-                <button onclick="executarAcao('sfc-scannow', 'Rodando SFC /ScanNow...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">2. SFC /ScanNow</h3>
-                    <p class="text-xs text-slate-500">Verifica e repara arquivos corrompidos do SO.</p>
+                <button onclick="executarAcao('sfc-scannow', 'Iniciando varredura com SFC /scannow (Acompanhe a cada 5s)...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">2. SFC /ScanNow</h3>
+                    <p class="text-xs text-slate-500">Procura e corrige arquivos corrompidos da integridade do Windows.</p>
                 </button>
-                <button onclick="executarAcao('dism-restore', 'Rodando DISM RestoreHealth...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">3. DISM RestoreHealth</h3>
-                    <p class="text-xs text-slate-500">Repara a imagem e os núcleos do sistema.</p>
+                <button onclick="executarAcao('dism-restore', 'Executando DISM RestoreHealth (Pode demorar)...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">3. DISM Restore</h3>
+                    <p class="text-xs text-slate-500">Restaura a integridade da imagem de sistema e núcleos do SO.</p>
                 </button>
-                <button onclick="executarAcao('restart-spooler', 'Reiniciando Spooler...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">4. Spooler Impressão</h3>
-                    <p class="text-xs text-slate-500">Destrava fila de impressão presa.</p>
+                <button onclick="executarAcao('restart-spooler', 'Reiniciando Spooler de Impressão...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">4. Resetar Impressoras</h3>
+                    <p class="text-xs text-slate-500">Destrava e reinicia o serviço do Spooler limpando a fila pendente.</p>
                 </button>
-                <button onclick="executarAcao('reset-rede', 'Resetando DNS e Rede...')" class="card-acao">
-                    <h3 class="font-semibold mb-1">5. Resetar Rede</h3>
-                    <p class="text-xs text-slate-500">Restaura DNS automático (DHCP) e reinicia adaptador.</p>
+                <button onclick="executarAcao('reset-rede', 'Restaura a Rede local e DNS para Automático...')" class="card-acao">
+                    <h3 class="font-semibold mb-1 text-slate-900 dark:text-white">5. Restaurar Rede DHCP</h3>
+                    <p class="text-xs text-slate-500">Configura adaptadores para obter IP/DNS automático e reinicia a rede.</p>
                 </button>
             </div>
             
             <!-- Comando Manual -->
             <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                <h3 class="font-semibold mb-2">6. Executar Comando Manual (PowerShell)</h3>
+                <h3 class="font-semibold mb-2">6. Enviar Comando PowerShell Customizado</h3>
                 <div class="flex gap-2">
                     <input type="text" id="cmdInput" placeholder="Ex: Get-Process | Select-Object -First 5" class="input-padrao w-full font-mono text-sm">
-                    <button onclick="enviarFormulario('comando-manual', { comando: document.getElementById('cmdInput').value }, 'Executando comando customizado...')" class="bg-slate-800 hover:bg-black text-white px-4 py-2 rounded-lg font-medium transition-colors">Enviar</button>
+                    <button onclick="executarAcao('comando-manual', 'Executando script manual...', { comando: document.getElementById('cmdInput').value })" class="bg-slate-800 hover:bg-black text-white px-4 py-2 rounded-lg font-medium transition-colors">Enviar</button>
                 </div>
             </div>
         </section>
@@ -172,33 +172,36 @@
         <!-- ABA 3: ANÁLISE -->
         <section id="tab-analise" class="aba-conteudo space-y-4 hidden">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button onclick="executarAcao('info-sistema', 'Coletando informações de hardware e usuário...')" class="card-acao bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800">
+                <button onclick="executarAcao('info-sistema', 'Requisitando informações de hardware e usuário...')" class="card-acao bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800">
                     <h3 class="font-semibold mb-1 text-indigo-700 dark:text-indigo-400">1. Consultar Info na Tela</h3>
-                    <p class="text-xs text-slate-500">Exibe hardware, versão do OS e usuário logado no log abaixo.</p>
+                    <p class="text-xs text-slate-500">Obtém processador, RAM, usuário ativo e SO direto no terminal abaixo.</p>
                 </button>
                 <button onclick="baixarRelatorioInfo()" class="card-acao bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 hover:border-emerald-400">
                     <h3 class="font-semibold mb-1 text-emerald-700 dark:text-emerald-400">2. Baixar Relatório (TXT)</h3>
-                    <p class="text-xs text-slate-500">Gera e faz download de um arquivo com os dados da máquina.</p>
+                    <p class="text-xs text-slate-500">Busca os dados do sistema em tempo real e inicia o download de um arquivo .txt.</p>
                 </button>
             </div>
         </section>
 
         <!-- Painel de Terminal / Log -->
-        <section class="flex-grow flex flex-col min-h-[300px]">
-            <h2 class="text-lg font-semibold mb-2 flex items-center justify-between">
-                <span>Output Remoto (Log)</span>
-                <button onclick="limparLog()" class="text-sm text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors">Limpar</button>
-            </h2>
-            <div id="terminalOutput" class="flex-grow bg-slate-900 rounded-2xl p-4 font-mono text-sm text-emerald-400 shadow-inner overflow-y-auto terminal-scroll whitespace-pre-wrap flex flex-col">
-                <span class="text-slate-500">Agente aguardando comandos...</span>
+        <section class="flex-grow flex flex-col min-h-[350px]">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-lg font-semibold flex items-center gap-2">
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    Terminal de Transmissão ao Vivo
+                </h2>
+                <button onclick="limparLog()" class="text-xs text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg">Limpar Terminal</button>
+            </div>
+            <div id="terminalOutput" class="flex-grow bg-slate-950 border border-slate-800 rounded-2xl p-5 font-mono text-sm text-emerald-400 shadow-2xl overflow-y-auto terminal-scroll whitespace-pre-wrap flex flex-col">
+                <span class="text-slate-500">Agente aguardando requisições... Pronto para execução rápida.</span>
             </div>
         </section>
 
     </main>
 
     <style>
-        /* Estilos Utilitários Adicionados para limpar o HTML */
-        .card-acao { @apply bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl p-4 shadow-sm text-left transition-all hover:-translate-y-1; }
+        /* CSS Auxiliar do Painel */
+        .card-acao { @apply bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl p-4 shadow-sm text-left transition-all hover:-translate-y-1; }
         .input-padrao { @apply bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow; }
         .btn-primario { @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm; }
     </style>
@@ -218,19 +221,19 @@
             btnAtivo.classList.add('text-blue-600', 'border-blue-600', 'dark:text-blue-400');
         }
 
-        // Service Worker (Mantido)
+        // Service Worker (Offline)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });
         }
 
-        // Monitorar Status da Internet (Mantido)
+        // Monitorar Status de Rede do Técnico
         function updateOnlineStatus() {
             const status = document.getElementById('statusIndicator');
             if (navigator.onLine) {
-                status.innerHTML = `<span class="relative flex h-3 w-3 mr-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span> Online`;
+                status.innerHTML = `<span class="relative flex h-3 w-3 mr-1"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span> Online`;
                 status.className = "flex items-center text-sm font-medium text-emerald-600 dark:text-emerald-400";
             } else {
-                status.innerHTML = `<span class="relative flex h-3 w-3 mr-2"><span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span></span> Offline`;
+                status.innerHTML = `<span class="relative flex h-3 w-3 mr-1"><span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span></span> Offline (Modo Local)`;
                 status.className = "flex items-center text-sm font-medium text-red-600 dark:text-red-400";
             }
         }
@@ -238,97 +241,140 @@
         window.addEventListener('offline', updateOnlineStatus);
         updateOnlineStatus();
 
-        // Escrever no Terminal
-        function log(message, isError = false) {
+        // Escrever em tempo real na tela usando pre
+        function logStream(text, isNewCommand = false) {
             const terminal = document.getElementById('terminalOutput');
-            const time = new Date().toLocaleTimeString();
-            const colorClass = isError ? 'text-red-400' : 'text-emerald-400';
-            const p = document.createElement('div');
-            p.className = `mb-1 ${colorClass}`;
-            p.innerHTML = `<span class="text-slate-500">[${time}]</span> ${message}`;
-            terminal.appendChild(p);
+            
+            // Remove o placeholder se houver
+            if (terminal.querySelector('.text-slate-500') && terminal.children.length === 1) {
+                terminal.innerHTML = '';
+            }
+
+            if (isNewCommand) {
+                const time = new Date().toLocaleTimeString();
+                const header = document.createElement('div');
+                header.className = 'text-blue-400 font-semibold mt-4 border-t border-slate-800 pt-3 flex items-center justify-between';
+                header.innerHTML = `<span>[${time}] > Comando Iniciado</span><span class="animate-pulse inline-block w-2 h-2 rounded-full bg-blue-400"></span>`;
+                terminal.appendChild(header);
+            }
+
+            let streamBlock = document.getElementById('activeStreamBlock');
+            if (!streamBlock || isNewCommand) {
+                if (streamBlock) {
+                    streamBlock.removeAttribute('id');
+                }
+                streamBlock = document.createElement('pre');
+                streamBlock.id = 'activeStreamBlock';
+                streamBlock.className = 'whitespace-pre-wrap font-mono text-sm text-emerald-400 leading-relaxed mt-1';
+                terminal.appendChild(streamBlock);
+            }
+
+            streamBlock.textContent += text;
             terminal.scrollTop = terminal.scrollHeight;
         }
 
         function limparLog() {
-            document.getElementById('terminalOutput').innerHTML = '<span class="text-slate-500">Log limpo. Aguardando comandos...</span>\n';
+            document.getElementById('terminalOutput').innerHTML = '<span class="text-slate-500">Terminal limpo. Aguardando novos comandos...</span>\n';
         }
 
         function getIp() {
             const ip = document.getElementById('ipInput').value.trim();
-            if (!ip) { log('ERRO: Digite o IP Local da máquina alvo.', true); return null; }
+            if (!ip) {
+                logStream('\nERRO: Digite o IP Local da máquina alvo antes de prosseguir.\n', true);
+                return null;
+            }
             return ip;
         }
 
-        // Executar Ações Simples (GET/POST sem body)
-        async function executarAcao(endpoint, msgInicio) {
-            const ip = getIp(); if (!ip) return;
-            log(`\n> ${msgInicio}`);
-            
-            try {
-                const response = await fetch(`http://${ip}:5000/api/${endpoint}`, { method: 'POST' });
-                const data = await response.json();
-                if (response.ok) log(data.output || data.status);
-                else log(`[FALHA HTTP] ${data.detail || response.status}`, true);
-            } catch (error) {
-                log(`[FALHA REDE] Erro ao conectar. O agente está rodando na porta 5000 em ${ip}?`, true);
-            }
-        }
-
-        // Executar Ações com Dados de Formulário (POST com JSON)
-        async function enviarFormulario(endpoint, payloadObj, msgInicio) {
+        // Executar Ações com Suporte a Transmissão Assíncrona de Logs (Sem Travar)
+        async function executarAcao(endpoint, msgInicio, payloadObj = null) {
             const ip = getIp(); if (!ip) return;
             
-            // Validação simples
-            for (const key in payloadObj) {
-                if (!payloadObj[key]) {
-                    log(`ERRO: Preencha todos os campos do formulário para esta ação.`, true);
-                    return;
+            // Se houver payload, verificar se todos os campos estão preenchidos
+            if (payloadObj) {
+                for (const key in payloadObj) {
+                    if (!payloadObj[key]) {
+                        logStream(`\nERRO: Preencha todos os dados exigidos pelo formulário para realizar esta ação.\n`, true);
+                        return;
+                    }
                 }
             }
 
-            log(`\n> ${msgInicio}`);
-            
+            logStream(`\n${msgInicio}\nConectando em http://${ip}:5000/api/${endpoint}...\n`, true);
+
             try {
-                const response = await fetch(`http://${ip}:5000/api/${endpoint}`, {
+                const options = {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payloadObj)
-                });
-                const data = await response.json();
-                if (response.ok) log(data.output || data.status);
-                else log(`[FALHA] ${data.detail || response.status}`, true);
+                    headers: { 'Content-Type': 'application/json' }
+                };
+                if (payloadObj) {
+                    options.body = JSON.stringify(payloadObj);
+                }
+
+                const response = await fetch(`http://${ip}:5000/api/${endpoint}`, options);
+                
+                if (!response.ok) {
+                    logStream(`\n[FALHA] Código de erro HTTP: ${response.status}\n`, false);
+                    return;
+                }
+
+                // Iniciar a leitura em fluxo do corpo da resposta HTTP
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    const chunk = decoder.decode(value, { stream: true });
+                    logStream(chunk, false); // Escreve o fragmento de log imediatamente na tela
+                }
+                
+                logStream(`\n[SUCESSO] Operação finalizada.\n`, false);
+
             } catch (error) {
-                log(`[FALHA REDE] Erro ao conectar com o agente.`, true);
+                logStream(`\n[FALHA DE COMUNICAÇÃO] O agente está rodando na máquina ${ip}? Verifique a porta 5000 e o Firewall.\n`, false);
             }
         }
 
         // Função Especial: Baixar Relatório
         async function baixarRelatorioInfo() {
             const ip = getIp(); if (!ip) return;
-            log('\n> Solicitando geração de relatório para download...');
+            logStream(`\nRequisitando geração de informações do sistema...\n`, true);
             
             try {
                 const response = await fetch(`http://${ip}:5000/api/info-sistema`, { method: 'POST' });
-                const data = await response.json();
                 
-                if (response.ok) {
-                    const texto = data.output;
-                    const blob = new Blob([texto], { type: 'text/plain' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = `Relatorio_Hardware_${ip}_${new Date().getTime()}.txt`;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    log('[SUCESSO] Relatório gerado e download iniciado no seu navegador!');
-                } else {
-                    log(`[ERRO] Falha ao gerar relatório: ${response.status}`, true);
+                if (!response.ok) {
+                    logStream(`\n[ERRO] Falha ao consultar o sistema: ${response.status}\n`, false);
+                    return;
                 }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let textAccumulator = "";
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    const chunk = decoder.decode(value, { stream: true });
+                    textAccumulator += chunk;
+                    logStream(chunk, false);
+                }
+
+                // Iniciar download no navegador
+                const blob = new Blob([textAccumulator], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `Relatorio_Sistema_${ip}_${new Date().getTime()}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                logStream(`\n[SUCESSO] Relatório compilado e baixado no seu computador!`, false);
+
             } catch (error) {
-                log(`[FALHA REDE] Erro ao conectar.`, true);
+                logStream(`\n[FALHA] Sem rede ou o agente de escuta está desativado na porta 5000.\n`, false);
             }
         }
     </script>
