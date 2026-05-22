@@ -34,9 +34,12 @@
                 <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
                 <h1 class="font-bold text-xl">Motor de Automação</h1>
             </div>
-            <div class="flex items-center gap-4 w-full sm:w-auto">
-                <input type="text" id="ipInput" placeholder="IP Alvo (ex: 192.168.1.100)" class="w-full sm:w-64 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 font-mono">
-            </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+                <a href="https://github.com/charlessilvano/html/releases/download/host/AgenteLocal.exe" download="AgenteLocal.exe" title="Baixar Agente Local" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 px-3 py-2 rounded-md text-sm font-medium transition-colors border border-slate-200 dark:border-slate-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span class="hidden sm:inline">Baixar Agente</span>
+                </a>
+                <input type="text" id="ipInput" placeholder="IP Alvo (ex: 192.168.1.100)" class="w-full sm:w-56 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 font-mono">
         </div>
         <div class="max-w-6xl mx-auto px-4 mt-2 flex gap-6 overflow-x-auto text-sm">
             <button onclick="switchTab('tab-biblioteca')" id="nav-biblioteca" class="pb-2 text-slate-500 hover:text-slate-800 dark:hover:text-white tab-active whitespace-nowrap">Biblioteca de Comandos</button>
