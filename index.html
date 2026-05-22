@@ -10,18 +10,32 @@
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'media', theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], } } } }
+        tailwind.config = { 
+            darkMode: 'media', 
+            theme: { 
+                extend: { 
+                    fontFamily: { sans: ['Inter', 'sans-serif'] } 
+                } 
+            } 
+        }
     </script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
     <style>
-        .terminal-scroll::-webkit-scrollbar { width: 8px; }
-        .terminal-scroll::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
-        .terminal-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        /* Estilização das barras de rolagem */
+        .custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        /* Tema Escuro para o Scroll do Terminal/Editor */
+        .dark-scroll::-webkit-scrollbar-track { background: #0f172a; }
+        
         .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: 600; }
         .gantt-bar { transition: width 0.3s ease; }
     </style>
@@ -29,81 +43,107 @@
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen flex flex-col">
 
     <header class="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            
             <div class="flex items-center gap-3">
-                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
-                <h1 class="font-bold text-xl">Motor de Automação</h1>
+                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+                <h1 class="font-bold text-xl tracking-tight truncate">Motor de Automação</h1>
             </div>
-        <div class="flex items-center gap-3 w-full sm:w-auto">
-                <a href="https://github.com/charlessilvano/html/releases/download/host/AgenteLocal.exe" download="AgenteLocal.exe" title="Baixar Agente Local" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 px-3 py-2 rounded-md text-sm font-medium transition-colors border border-slate-200 dark:border-slate-600">
+            
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+                <a href="https://github.com/charlessilvano/html/releases/download/host/AgenteLocal.exe" download="AgenteLocal.exe" class="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-slate-200 dark:border-slate-600 shadow-sm shrink-0">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    <span class="hidden sm:inline">Baixar Agente</span>
+                    <span>Baixar Agente</span>
                 </a>
-                <input type="text" id="ipInput" placeholder="IP Alvo (ex: 192.168.1.100)" class="w-full sm:w-56 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 font-mono">
+                <input type="text" id="ipInput" placeholder="IP Alvo (ex: 192.168.1.100)" class="w-full sm:w-64 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 font-mono shadow-sm outline-none transition-all">
+            </div>
+            
         </div>
-        <div class="max-w-6xl mx-auto px-4 mt-2 flex gap-6 overflow-x-auto text-sm">
-            <button onclick="switchTab('tab-biblioteca')" id="nav-biblioteca" class="pb-2 text-slate-500 hover:text-slate-800 dark:hover:text-white tab-active whitespace-nowrap">Biblioteca de Comandos</button>
-            <button onclick="switchTab('tab-fila')" id="nav-fila" class="pb-2 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap">Fila de Execução</button>
-            <button onclick="switchTab('tab-terminal')" id="nav-terminal" class="pb-2 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap">Terminal (Logs)</button>
-            <button onclick="switchTab('tab-gantt')" id="nav-gantt" class="pb-2 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap">Relatório & Gantt</button>
+        
+        <div class="max-w-6xl mx-auto px-4 mt-1 flex gap-6 overflow-x-auto custom-scroll text-sm">
+            <button onclick="switchTab('tab-biblioteca')" id="nav-biblioteca" class="pb-3 text-slate-500 hover:text-slate-800 dark:hover:text-white tab-active whitespace-nowrap transition-colors">Biblioteca de Comandos</button>
+            <button onclick="switchTab('tab-fila')" id="nav-fila" class="pb-3 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap transition-colors">Fila de Execução</button>
+            <button onclick="switchTab('tab-terminal')" id="nav-terminal" class="pb-3 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap transition-colors">Terminal (Logs)</button>
+            <button onclick="switchTab('tab-gantt')" id="nav-gantt" class="pb-3 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap transition-colors">Relatório & Gantt</button>
         </div>
     </header>
 
-    <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-6">
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-8">
         
-        <div id="tab-biblioteca" class="block">
+        <div id="tab-biblioteca" class="block animate-fade-in">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 h-fit">
-                    <h2 class="font-semibold mb-4">Novo Comando</h2>
-                    <input type="text" id="cmdNome" placeholder="Nome da Tarefa" class="w-full mb-3 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm">
-                    <input type="text" id="cmdTag" placeholder="Etiqueta (ex: Servidor, AD, Manutenção)" class="w-full mb-3 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm">
-                    <textarea id="cmdScript" placeholder="Código PowerShell..." class="w-full mb-3 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm font-mono h-32"></textarea>
-                    <button onclick="salvarComando()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md transition-colors text-sm">Salvar na Biblioteca</button>
+                
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 h-fit">
+                    <h2 class="font-semibold text-lg mb-5 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Novo Comando
+                    </h2>
+                    
+                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">Nome da Tarefa</label>
+                    <input type="text" id="cmdNome" placeholder="Ex: Limpeza Profunda" class="w-full mb-4 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    
+                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">Etiqueta</label>
+                    <input type="text" id="cmdTag" placeholder="Ex: Manutenção, AD, Rede" class="w-full mb-4 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    
+                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">Script PowerShell</label>
+                    <textarea id="cmdScript" placeholder="Write-Output 'Hello World'..." spellcheck="false" class="w-full mb-5 bg-slate-900 text-emerald-400 border border-slate-700 rounded-lg px-4 py-3 text-sm font-mono h-48 focus:ring-2 focus:ring-blue-500 outline-none resize-y shadow-inner custom-scroll dark-scroll"></textarea>
+                    
+                    <button onclick="salvarComando()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition-colors text-sm shadow-sm">Salvar na Biblioteca</button>
                 </div>
+
                 <div class="lg:col-span-2">
-                    <div id="listaBiblioteca" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div id="listaBiblioteca" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         </div>
                 </div>
             </div>
         </div>
 
         <div id="tab-fila" class="hidden">
-            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-5">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-semibold">Fila de Tarefas</h2>
-                    <div class="space-x-2">
-                        <button onclick="limparFila()" class="text-sm text-red-500 hover:underline">Limpar Fila</button>
-                        <button onclick="iniciarFila()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-1.5 px-4 rounded-md transition-colors text-sm">▶ Executar Fila no IP</button>
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <h2 class="font-semibold text-lg">Fila de Tarefas</h2>
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <button onclick="limparFila()" class="text-sm text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-slate-700 px-3 py-1.5 rounded-md transition-colors font-medium">Limpar Fila</button>
+                        <button onclick="iniciarFila()" class="flex-grow sm:flex-grow-0 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-5 rounded-lg transition-colors text-sm shadow-sm flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                            Executar Fila
+                        </button>
                     </div>
                 </div>
-                <div id="listaFila" class="space-y-2">
-                    <p class="text-sm text-slate-500 text-center py-8">Nenhum comando na fila. Vá até a Biblioteca e adicione.</p>
+                <div id="listaFila" class="space-y-3">
+                    <p class="text-sm text-slate-500 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Nenhum comando na fila. Adicione tarefas a partir da Biblioteca.</p>
                 </div>
             </div>
         </div>
 
-        <div id="tab-terminal" class="hidden h-full">
-            <div class="bg-slate-900 rounded-xl p-4 font-mono text-sm text-emerald-400 shadow-inner h-[600px] overflow-y-auto terminal-scroll flex flex-col relative">
-                <div class="sticky top-0 bg-slate-900 pb-2 mb-2 border-b border-slate-700 flex justify-between items-center z-10">
-                    <span class="text-slate-300">Monitor de Execução</span>
-                    <button onclick="limparTerminal()" class="text-xs text-slate-500 hover:text-white">Limpar Log</button>
+        <div id="tab-terminal" class="hidden h-[calc(100vh-200px)] min-h-[500px]">
+            <div class="bg-slate-900 rounded-2xl p-4 font-mono text-sm text-emerald-400 shadow-inner h-full overflow-y-auto custom-scroll dark-scroll flex flex-col relative border border-slate-700">
+                <div class="sticky top-0 bg-slate-900/95 backdrop-blur pb-3 mb-3 border-b border-slate-800 flex justify-between items-center z-10">
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-2.5 w-2.5">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        </span>
+                        <span class="text-slate-300 font-medium">Console Remoto</span>
+                    </div>
+                    <button onclick="limparTerminal()" class="text-xs font-sans font-medium text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded transition-colors">Limpar Log</button>
                 </div>
-                <div id="terminalOutput" class="whitespace-pre-wrap flex-grow pb-4"></div>
+                <div id="terminalOutput" class="whitespace-pre-wrap flex-grow pb-4 pl-1"></div>
             </div>
         </div>
 
         <div id="tab-gantt" class="hidden">
-            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-5">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="font-semibold">Análise de Tempo (Gantt)</h2>
-                    <button onclick="exportarPDF()" class="bg-red-600 hover:bg-red-700 text-white font-medium py-1.5 px-4 rounded-md transition-colors text-sm flex items-center gap-2">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                    <h2 class="font-semibold text-lg">Análise de Tempo (Gantt)</h2>
+                    <button onclick="exportarPDF()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-5 rounded-lg transition-colors text-sm shadow-sm flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         Exportar Relatório PDF
                     </button>
                 </div>
                 
-                <div id="ganttContainer" class="w-full overflow-x-auto pb-4">
-                    <p class="text-sm text-slate-500 text-center py-8">Execute uma fila para gerar o gráfico de tempo.</p>
+                <div id="ganttContainer" class="w-full overflow-x-auto pb-4 custom-scroll">
+                    <p class="text-sm text-slate-500 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Execute uma fila para gerar as métricas de tempo.</p>
                 </div>
             </div>
         </div>
@@ -130,15 +170,18 @@
         // --- BIBLIOTECA (CRUD) ---
         function salvarComando() {
             const nome = document.getElementById('cmdNome').value.trim();
-            const tag = document.getElementById('cmdTag').value.trim();
+            const tag = document.getElementById('cmdTag').value.trim() || 'GERAL';
             const script = document.getElementById('cmdScript').value.trim();
 
-            if(!nome || !script) return alert("Nome e Script são obrigatórios.");
+            if(!nome || !script) return alert("Por favor, preencha o Nome e o Script PowerShell.");
 
             biblioteca.push({ id: Date.now().toString(), nome, tag, script });
             localStorage.setItem('comandosTI', JSON.stringify(biblioteca));
             
-            document.getElementById('cmdNome').value = ''; document.getElementById('cmdTag').value = ''; document.getElementById('cmdScript').value = '';
+            document.getElementById('cmdNome').value = ''; 
+            document.getElementById('cmdTag').value = ''; 
+            document.getElementById('cmdScript').value = '';
+            
             renderBiblioteca();
         }
 
@@ -151,21 +194,29 @@
         function renderBiblioteca() {
             const container = document.getElementById('listaBiblioteca');
             if(biblioteca.length === 0) {
-                container.innerHTML = '<p class="text-sm text-slate-500 col-span-2">Sua biblioteca está vazia.</p>';
+                container.innerHTML = '<p class="text-sm text-slate-500 md:col-span-2 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Sua biblioteca está vazia. Crie seu primeiro comando ao lado.</p>';
                 return;
             }
             container.innerHTML = biblioteca.map(cmd => `
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between group">
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between group hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
                     <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-semibold text-sm">${cmd.nome}</h3>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 uppercase tracking-wide">${cmd.tag || 'GERAL'}</span>
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-semibold text-slate-800 dark:text-white">${cmd.nome}</h3>
+                            <span class="text-[10px] font-bold px-2.5 py-1 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 uppercase tracking-wider">${cmd.tag}</span>
                         </div>
-                        <pre class="text-[10px] text-slate-500 font-mono bg-slate-50 dark:bg-slate-900 p-2 rounded max-h-20 overflow-y-auto mb-3 border border-slate-100 dark:border-slate-800">${cmd.script}</pre>
+                        <div class="relative">
+                            <pre class="text-xs text-emerald-600 dark:text-emerald-400 font-mono bg-slate-50 dark:bg-slate-900 p-3 rounded-lg max-h-24 overflow-y-auto mb-4 border border-slate-100 dark:border-slate-800 custom-scroll dark-scroll">${cmd.script}</pre>
+                        </div>
                     </div>
-                    <div class="flex justify-between mt-2 pt-2 border-t border-slate-100 dark:border-slate-700">
-                        <button onclick="deletarComando('${cmd.id}')" class="text-xs text-red-500 hover:text-red-700">Excluir</button>
-                        <button onclick="adicionarFila('${cmd.id}')" class="text-xs font-medium text-white bg-slate-800 dark:bg-slate-600 px-3 py-1 rounded hover:bg-slate-700 dark:hover:bg-slate-500 transition-colors">+ Add Fila</button>
+                    <div class="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                        <button onclick="deletarComando('${cmd.id}')" class="text-xs font-medium text-red-500 hover:text-red-700 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            Excluir
+                        </button>
+                        <button onclick="adicionarFila('${cmd.id}')" class="text-xs font-medium text-white bg-slate-800 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 px-4 py-1.5 rounded-md transition-colors shadow-sm flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Adicionar à Fila
+                        </button>
                     </div>
                 </div>
             `).join('');
@@ -175,7 +226,6 @@
         function adicionarFila(id) {
             const cmd = biblioteca.find(c => c.id === id);
             if(cmd) {
-                // Adicionamos uma cópia com UUID de execução e campos de tempo
                 filaExecucao.push({ 
                     ...cmd, 
                     execId: Date.now() + Math.random().toString(), 
@@ -186,43 +236,56 @@
                     log: '' 
                 });
                 renderFila();
-                // Notificação visual simples
-                const btn = event.target;
-                const txt = btn.innerText;
-                btn.innerText = "✓ Adicionado";
-                btn.classList.add("bg-emerald-600");
-                setTimeout(() => { btn.innerText = txt; btn.classList.remove("bg-emerald-600"); }, 1000);
+                
+                // Efeito visual no botão de clique
+                const btn = event.currentTarget;
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Adicionado`;
+                btn.classList.add("bg-emerald-600", "dark:bg-emerald-600");
+                setTimeout(() => { 
+                    btn.innerHTML = originalHtml; 
+                    btn.classList.remove("bg-emerald-600", "dark:bg-emerald-600"); 
+                }, 1000);
             }
         }
 
-        function limparFila() { filaExecucao = []; renderFila(); }
+        function limparFila() { 
+            if(executando) return alert("Não é possível limpar a fila durante uma execução.");
+            filaExecucao = []; 
+            renderFila(); 
+        }
 
         function renderFila() {
             const container = document.getElementById('listaFila');
             if(filaExecucao.length === 0) {
-                container.innerHTML = '<p class="text-sm text-slate-500 text-center py-8">Nenhum comando na fila.</p>';
+                container.innerHTML = '<p class="text-sm text-slate-500 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Nenhum comando na fila. Adicione tarefas a partir da Biblioteca.</p>';
                 return;
             }
             container.innerHTML = filaExecucao.map((cmd, index) => `
-                <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-center gap-3">
-                        <span class="text-slate-400 font-mono text-xs w-4">${index + 1}.</span>
+                <div class="flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-4">
+                        <div class="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-xs font-mono font-medium text-slate-500">${index + 1}</div>
                         <div>
-                            <p class="font-medium text-sm">${cmd.nome}</p>
-                            <p class="text-xs text-slate-500">Status: <strong class="${getStatusColor(cmd.status)}">${cmd.status}</strong></p>
+                            <p class="font-semibold text-sm text-slate-800 dark:text-white">${cmd.nome}</p>
+                            <p class="text-xs mt-0.5">Status: <strong class="${getStatusColor(cmd.status)}">${cmd.status}</strong></p>
                         </div>
                     </div>
-                    ${cmd.status === 'Pendente' ? `<button onclick="removerDaFila(${index})" class="text-slate-400 hover:text-red-500">×</button>` : `<span class="text-xs font-mono text-slate-400">${cmd.duracaoMs > 0 ? (cmd.duracaoMs/1000).toFixed(1) + 's' : ''}</span>`}
+                    ${cmd.status === 'Pendente' && !executando 
+                        ? `<button onclick="removerDaFila(${index})" class="text-slate-400 hover:text-red-500 p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="Remover"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>` 
+                        : `<span class="text-xs font-mono font-medium text-slate-500 bg-slate-100 dark:bg-slate-900 px-2 py-1 rounded">${cmd.duracaoMs > 0 ? (cmd.duracaoMs/1000).toFixed(1) + 's' : '---'}</span>`
+                    }
                 </div>
             `).join('');
         }
 
-        function removerDaFila(index) { filaExecucao.splice(index, 1); renderFila(); }
+        function removerDaFila(index) { 
+            if(!executando) { filaExecucao.splice(index, 1); renderFila(); } 
+        }
         
         function getStatusColor(status) {
-            if(status === 'Rodando...') return 'text-blue-500 animate-pulse';
-            if(status === 'Concluído') return 'text-emerald-500';
-            if(status === 'Erro') return 'text-red-500';
+            if(status === 'Rodando...') return 'text-blue-500 dark:text-blue-400 animate-pulse';
+            if(status === 'Concluído') return 'text-emerald-600 dark:text-emerald-400';
+            if(status === 'Erro') return 'text-red-600 dark:text-red-400';
             return 'text-slate-500';
         }
 
@@ -231,20 +294,32 @@
         function logTerm(msg, isHeader = false) {
             const time = new Date().toLocaleTimeString();
             const div = document.createElement('div');
-            div.className = isHeader ? 'text-blue-300 mt-4 mb-1 font-bold' : 'mb-0.5 ml-2';
-            div.innerHTML = isHeader ? `>>> ${msg}` : `<span class="text-slate-600 mr-2">[${time}]</span>${msg}`;
+            
+            if (isHeader) {
+                div.className = 'text-blue-400 mt-5 mb-2 font-bold bg-blue-900/20 py-1 px-2 rounded border-l-2 border-blue-500';
+                div.innerHTML = `>>> ${msg}`;
+            } else {
+                div.className = 'mb-1 flex hover:bg-slate-800/50 px-2 rounded';
+                div.innerHTML = `<span class="text-slate-600 mr-3 shrink-0 select-none">[${time}]</span><span class="break-all">${msg}</span>`;
+            }
+            
             terminal.appendChild(div);
             terminal.parentElement.scrollTop = terminal.parentElement.scrollHeight;
         }
+        
         function limparTerminal() { terminal.innerHTML = ''; }
 
         async function iniciarFila() {
             const ip = document.getElementById('ipInput').value.trim();
-            if(!ip) return alert("Digite o IP alvo antes de iniciar.");
+            if(!ip) {
+                document.getElementById('ipInput').focus();
+                return alert("Por favor, digite o IP da máquina alvo no cabeçalho.");
+            }
             if(filaExecucao.length === 0) return alert("A fila está vazia.");
             if(executando) return;
 
             executando = true;
+            renderFila(); // Atualiza botões
             switchTab('tab-terminal');
             
             for(let i = 0; i < filaExecucao.length; i++) {
@@ -264,7 +339,7 @@
                         body: JSON.stringify({ comando: tarefa.script })
                     });
 
-                    if (!response.body) throw new Error("Sem suporte a stream");
+                    if (!response.body) throw new Error("O navegador não suporta streaming desta resposta.");
                     
                     const reader = response.body.getReader();
                     const decoder = new TextDecoder("utf-8");
@@ -274,13 +349,19 @@
                         if (done) break;
                         const chunk = decoder.decode(value, { stream: true });
                         tarefa.log += chunk;
-                        logTerm(chunk.trim());
+                        
+                        // Divide por quebras de linha para formatar melhor no terminal
+                        const linhas = chunk.split('\n');
+                        for(let linha of linhas) {
+                            if(linha.trim()) logTerm(linha.trim());
+                        }
                     }
                     tarefa.status = 'Concluído';
                 } catch (error) {
                     tarefa.status = 'Erro';
-                    tarefa.log += `\nFALHA DE REDE: ${error.message}`;
-                    logTerm(`ERRO DE CONEXÃO: ${error.message}`);
+                    tarefa.log += `\n[FALHA DE COMUNICAÇÃO] ${error.message}`;
+                    logTerm(`ERRO CRÍTICO: ${error.message}`, false);
+                    logTerm(`Verifique se o Agente C# está rodando no IP ${ip} e se a porta 5000 não está bloqueada.`, false);
                 }
 
                 tarefa.fim = new Date();
@@ -290,6 +371,7 @@
 
             logTerm("====== FILA FINALIZADA ======", true);
             executando = false;
+            renderFila();
         }
 
         // --- GANTT E RELATÓRIO ---
@@ -298,7 +380,7 @@
             const executadas = filaExecucao.filter(t => t.inicio && t.fim);
             
             if(executadas.length === 0) {
-                container.innerHTML = '<p class="text-sm text-slate-500 text-center py-8">Nenhuma métrica de tempo capturada ainda.</p>';
+                container.innerHTML = '<p class="text-sm text-slate-500 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Nenhuma métrica de tempo capturada ainda.</p>';
                 return;
             }
 
@@ -306,17 +388,19 @@
             const tempoMaximo = Math.max(...executadas.map(t => t.fim.getTime()));
             const duracaoTotal = tempoMaximo - tempoMinimo;
 
-            let html = `<div class="relative min-w-[600px] mt-4 border-l border-slate-300 dark:border-slate-600 pl-4 space-y-6">`;
+            let html = `<div class="relative min-w-[700px] mt-6 border-l-2 border-slate-200 dark:border-slate-600 pl-4 space-y-6">`;
             
             executadas.forEach(tarefa => {
-                const startPos = ((tarefa.inicio.getTime() - tempoMinimo) / duracaoTotal) * 100;
-                let width = (tarefa.duracaoMs / duracaoTotal) * 100;
-                if(width < 1) width = 1; // Para comandos muito rápidos ficarem visíveis
+                const startPos = duracaoTotal > 0 ? ((tarefa.inicio.getTime() - tempoMinimo) / duracaoTotal) * 100 : 0;
+                let width = duracaoTotal > 0 ? (tarefa.duracaoMs / duracaoTotal) * 100 : 100;
+                if(width < 2) width = 2; // Força uma largura mínima para visibilidade
+
+                const corBarra = tarefa.status === 'Concluído' ? 'bg-blue-500 dark:bg-blue-600' : 'bg-red-500 dark:bg-red-600';
 
                 html += `
                 <div class="relative h-10 w-full group">
-                    <div class="absolute -left-36 w-32 text-right pr-2 truncate text-sm font-medium text-slate-600 dark:text-slate-300 leading-6" title="${tarefa.nome}">${tarefa.nome}</div>
-                    <div class="absolute h-6 rounded bg-blue-500 shadow-sm gantt-bar flex items-center px-2 text-[10px] text-white overflow-hidden whitespace-nowrap" 
+                    <div class="absolute -left-[160px] w-[140px] text-right pr-2 truncate text-sm font-medium text-slate-700 dark:text-slate-300 leading-8" title="${tarefa.nome}">${tarefa.nome}</div>
+                    <div class="absolute h-8 rounded-md ${corBarra} shadow-sm gantt-bar flex items-center px-3 text-xs font-medium text-white overflow-hidden whitespace-nowrap" 
                          style="left: ${startPos}%; width: ${width}%;">
                         ${(tarefa.duracaoMs / 1000).toFixed(1)}s
                     </div>
@@ -329,55 +413,63 @@
 
         function exportarPDF() {
             const executadas = filaExecucao.filter(t => t.inicio && t.fim);
-            if(executadas.length === 0) return alert("Não há tarefas concluídas para exportar.");
+            if(executadas.length === 0) return alert("Não há tarefas concluídas na fila atual para exportar.");
 
             const tableBody = [
-                [{ text: 'Tarefa', style: 'tableHeader' }, { text: 'Etiqueta', style: 'tableHeader' }, { text: 'Duração', style: 'tableHeader' }, { text: 'Status', style: 'tableHeader' }]
+                [{ text: 'Ordem', style: 'tableHeader' }, { text: 'Tarefa', style: 'tableHeader' }, { text: 'Tag', style: 'tableHeader' }, { text: 'Duração', style: 'tableHeader' }, { text: 'Status', style: 'tableHeader' }]
             ];
 
-            executadas.forEach(t => {
+            executadas.forEach((t, i) => {
                 tableBody.push([
+                    (i + 1).toString(),
                     t.nome, 
                     t.tag, 
                     (t.duracaoMs/1000).toFixed(1) + 's',
-                    { text: t.status, color: t.status === 'Concluído' ? 'green' : 'red' }
+                    { text: t.status, color: t.status === 'Concluído' ? '#059669' : '#dc2626', bold: true }
                 ]);
             });
 
-            // Adiciona logs detalhados
             const logsSection = [];
             executadas.forEach(t => {
-                logsSection.push({ text: `Log: ${t.nome}`, style: 'subheader', margin: [0, 15, 0, 5] });
-                logsSection.push({ text: t.log.substring(0, 1500) + (t.log.length > 1500 ? '\n...[Log Truncado]' : ''), style: 'codeBlock' });
+                logsSection.push({ text: `Detalhes: ${t.nome}`, style: 'subheader', margin: [0, 20, 0, 5] });
+                const logLimpo = t.log.trim() ? t.log : 'Nenhum output retornado pelo PowerShell.';
+                logsSection.push({ text: logLimpo.substring(0, 2000) + (logLimpo.length > 2000 ? '\n\n...[Log Truncado devido ao tamanho]' : ''), style: 'codeBlock' });
             });
 
             const docDefinition = {
                 content: [
-                    { text: 'Relatório de Execução de Manutenção TI', style: 'header' },
-                    { text: `Data: ${new Date().toLocaleString()}`, margin: [0, 0, 0, 10] },
-                    { text: `IP Alvo: ${document.getElementById('ipInput').value || 'Desconhecido'}`, margin: [0, 0, 0, 20] },
+                    { text: 'RELATÓRIO DE AUTOMAÇÃO DE TI', style: 'header' },
+                    { text: `Gerado em: ${new Date().toLocaleString()}`, margin: [0, 0, 0, 5], fontSize: 10, color: 'gray' },
+                    { text: `Máquina Alvo (IP): ${document.getElementById('ipInput').value || 'Não informado'}`, margin: [0, 0, 0, 20], fontSize: 10, color: 'gray' },
                     {
                         table: {
                             headerRows: 1,
-                            widths: ['*', 'auto', 'auto', 'auto'],
+                            widths: ['auto', '*', 'auto', 'auto', 'auto'],
                             body: tableBody
                         },
-                        layout: 'lightHorizontalLines'
+                        layout: {
+                            hLineWidth: function (i, node) { return (i === 0 || i === node.table.body.length) ? 2 : 1; },
+                            vLineWidth: function (i, node) { return 0; },
+                            hLineColor: function (i, node) { return i === 1 ? 'black' : '#aaa'; },
+                            paddingTop: function(i, node) { return 5; },
+                            paddingBottom: function(i, node) { return 5; }
+                        }
                     },
                     ...logsSection
                 ],
                 styles: {
-                    header: { fontSize: 18, bold: true },
-                    subheader: { fontSize: 14, bold: true },
-                    tableHeader: { bold: true, fontSize: 12, color: 'black' },
-                    codeBlock: { font: 'Roboto', fontSize: 9, background: '#f4f4f4', padding: 5 }
-                }
+                    header: { fontSize: 18, bold: true, color: '#1e293b' },
+                    subheader: { fontSize: 12, bold: true, color: '#334155', borderBottom: true },
+                    tableHeader: { bold: true, fontSize: 11, color: 'black' },
+                    codeBlock: { font: 'Roboto', fontSize: 9, background: '#f8fafc', padding: 8, margin: [0,0,0,10], color: '#334155' }
+                },
+                defaultStyle: { font: 'Roboto' }
             };
 
-            pdfMake.createPdf(docDefinition).download(`RelatorioTI_${Date.now()}.pdf`);
+            pdfMake.createPdf(docDefinition).download(`Relatorio_Automacao_${Date.now()}.pdf`);
         }
 
-        // Init
+        // Inicialização
         renderBiblioteca();
     </script>
 </body>
