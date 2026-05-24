@@ -2,200 +2,148 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Conterplan - Motor de Execução Remota</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor de Execução Remota</title>
     
-    <!-- PWA Configs -->
     <link rel="manifest" href="manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#003366">
-    <link rel="apple-touch-icon" href="imagem (4) - Copia - Copia - Copia.png">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     
-    <!-- Google Fonts: Inter (300 Light, 900 Black) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { 
-            darkMode: 'class', 
+            darkMode: 'media', 
             theme: { 
                 extend: { 
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    fontWeight: { light: 300, black: 900 },
-                    colors: {
-                        brand: {
-                            blue: '#003366', // Azul institucional Conterplan
-                            orange: '#FF6B00', // Laranja institucional Conterplan
-                            light: '#F8FAFC',
-                            dark: '#0B1120'
-                        }
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] } 
                 } 
             } 
         }
     </script>
     
-    <!-- PDFMake CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; font-weight: 300; }
-        h1, h2, h3, h4, h5, h6 { font-weight: 900; }
-        
-        .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+        /* Estilização das barras de rolagem */
+        .custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #64748b; }
         
+        /* Tema Escuro para o Scroll do Terminal/Editor */
         .dark-scroll::-webkit-scrollbar-track { background: #0f172a; }
-        .dark-scroll::-webkit-scrollbar-thumb { background: #334155; }
         
-        .tab-active { border-bottom: 3px solid #FF6B00; color: #FF6B00; font-weight: 900; }
-        .gantt-bar { transition: width 0.4s ease-in-out; }
-
-        /* Toast Animation */
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-        .toast-enter { animation: slideIn 0.3s ease-out forwards; }
-        .toast-exit { animation: fadeOut 0.3s ease-out forwards; }
+        .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: 600; }
+        .gantt-bar { transition: width 0.3s ease; }
     </style>
 </head>
-<body class="bg-brand-light text-slate-800 min-h-screen flex flex-col font-light">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen flex flex-col">
 
-    <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-    <header class="bg-brand-blue text-white shadow-md sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <header class="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             
-            <div class="flex items-center gap-4">
-                <!-- Fallback multi-logo handling per directives -->
-                <img src="Logomarca - Copia.svg" alt="Conterplan Logo" 
-                     onerror="this.src='https://placehold.co/200x60/003366/FF6B00?text=CONTERPLAN'" 
-                     class="h-10 object-contain bg-white px-2 rounded">
-                <div class="hidden lg:flex gap-1 items-center opacity-0 absolute pointer-events-none">
-                    <!-- Referencing remaining required visual files dynamically -->
-                    <img src="imagem (4) - Copia - Copia - Copia.png" alt="Reference 1">
-                    <img src="imagem (4)1 - Copia.svg" alt="Reference 2">
-                    <img src="Logo sem fundo - Copia.png" alt="Reference 3">
-                </div>
-                <div class="h-8 w-px bg-blue-800 hidden md:block"></div>
-                <h1 class="text-xl tracking-wide font-black text-brand-orange uppercase">Automação de Frotas/TI</h1>
+            <div class="flex items-center gap-3">
+                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+                <h1 class="font-bold text-xl tracking-tight truncate">Motor de Automação</h1>
             </div>
             
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto text-sm">
-                <input type="text" id="ipInput" placeholder="IP do Equipamento/Obra..." class="w-full sm:w-64 bg-white/10 border border-brand-orange/50 rounded px-4 py-2 text-white placeholder-blue-300 focus:ring-2 focus:ring-brand-orange outline-none font-black font-mono transition-all">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+                <a href="https://github.com/charlessilvano/html/releases/download/host/AgenteLocal.exe" download="AgenteLocal.exe" class="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-slate-200 dark:border-slate-600 shadow-sm shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span>Baixar Agente</span>
+                </a>
+                <input type="text" id="ipInput" placeholder="IP Alvo (ex: 192.168.1.100)" class="w-full sm:w-64 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 font-mono shadow-sm outline-none transition-all">
             </div>
             
         </div>
         
-        <div class="max-w-7xl mx-auto px-4 mt-2 flex gap-8 overflow-x-auto custom-scroll text-sm uppercase tracking-wider bg-brand-blue">
-            <button onclick="switchTab('tab-biblioteca')" id="nav-biblioteca" class="pb-3 text-blue-200 hover:text-white tab-active whitespace-nowrap transition-colors font-black">Biblioteca</button>
-            <button onclick="switchTab('tab-fila')" id="nav-fila" class="pb-3 text-blue-200 hover:text-white whitespace-nowrap transition-colors font-black">Fila de Execução</button>
-            <button onclick="switchTab('tab-terminal')" id="nav-terminal" class="pb-3 text-blue-200 hover:text-white whitespace-nowrap transition-colors font-black">Monitoramento (Logs)</button>
-            <button onclick="switchTab('tab-gantt')" id="nav-gantt" class="pb-3 text-blue-200 hover:text-white whitespace-nowrap transition-colors font-black">Vistorias / Gantt</button>
+        <div class="max-w-6xl mx-auto px-4 mt-1 flex gap-6 overflow-x-auto custom-scroll text-sm">
+            <button onclick="switchTab('tab-biblioteca')" id="nav-biblioteca" class="pb-3 text-slate-500 hover:text-slate-800 dark:hover:text-white tab-active whitespace-nowrap transition-colors">Biblioteca de Comandos</button>
+            <button onclick="switchTab('tab-fila')" id="nav-fila" class="pb-3 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap transition-colors">Fila de Execução</button>
+            <button onclick="switchTab('tab-terminal')" id="nav-terminal" class="pb-3 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap transition-colors">Terminal (Logs)</button>
+            <button onclick="switchTab('tab-gantt')" id="nav-gantt" class="pb-3 text-slate-500 hover:text-slate-800 dark:hover:text-white whitespace-nowrap transition-colors">Relatório & Gantt</button>
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-8">
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-8">
         
         <div id="tab-biblioteca" class="block animate-fade-in">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-fit">
-                    <h2 class="text-lg mb-6 flex items-center gap-2 text-brand-blue font-black uppercase">
-                        <svg class="w-6 h-6 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        Nova Diretiva Padrão
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 h-fit">
+                    <h2 class="font-semibold text-lg mb-5 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Novo Comando
                     </h2>
                     
-                    <label class="block text-xs text-slate-500 mb-1 uppercase tracking-wide font-black">Título da Manutenção/TI</label>
-                    <input type="text" id="cmdNome" placeholder="Ex: Update Telemetria Escavadeira" class="w-full mb-4 bg-slate-50 border border-slate-300 rounded px-4 py-2.5 text-sm focus:ring-1 focus:ring-brand-orange outline-none font-light">
+                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">Nome da Tarefa</label>
+                    <input type="text" id="cmdNome" placeholder="Ex: Limpeza Profunda" class="w-full mb-4 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label class="block text-xs text-slate-500 mb-1 uppercase tracking-wide font-black">Obra/Setor</label>
-                            <input type="text" id="cmdObra" placeholder="Ex: Lote 3 - Terraplenagem" class="w-full bg-slate-50 border border-slate-300 rounded px-4 py-2.5 text-sm focus:ring-1 focus:ring-brand-orange outline-none font-light">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-500 mb-1 uppercase tracking-wide font-black">Equipamento/Ativo</label>
-                            <input type="text" id="cmdAtivo" placeholder="Ex: TR-045" class="w-full bg-slate-50 border border-slate-300 rounded px-4 py-2.5 text-sm focus:ring-1 focus:ring-brand-orange outline-none font-light">
-                        </div>
-                    </div>
+                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">Etiqueta</label>
+                    <input type="text" id="cmdTag" placeholder="Ex: Manutenção, AD, Rede" class="w-full mb-4 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     
-                    <label class="block text-xs text-slate-500 mb-1 uppercase tracking-wide font-black">Script de Automação (PowerShell/Shell)</label>
-                    <textarea id="cmdScript" placeholder="Write-Output 'Sincronizando log de telemetria...'..." spellcheck="false" class="w-full mb-6 bg-slate-900 text-orange-400 border border-slate-800 rounded px-4 py-3 text-sm font-mono h-48 focus:ring-1 focus:ring-brand-orange outline-none resize-y custom-scroll dark-scroll font-light"></textarea>
+                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">Script PowerShell</label>
+                    <textarea id="cmdScript" placeholder="Write-Output 'Hello World'..." spellcheck="false" class="w-full mb-5 bg-slate-900 text-emerald-400 border border-slate-700 rounded-lg px-4 py-3 text-sm font-mono h-48 focus:ring-2 focus:ring-blue-500 outline-none resize-y shadow-inner custom-scroll dark-scroll"></textarea>
                     
-                    <button onclick="salvarComando()" class="w-full bg-brand-orange hover:bg-orange-600 text-white py-3 rounded transition-colors text-sm shadow-sm font-black uppercase tracking-wider flex justify-center items-center gap-2">
-                        <span id="btnSaveText">Registrar no Azure Cosmos DB</span>
-                    </button>
+                    <button onclick="salvarComando()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition-colors text-sm shadow-sm">Salvar na Biblioteca</button>
                 </div>
 
                 <div class="lg:col-span-2">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg text-brand-blue font-black uppercase">Diretivas Cadastradas</h2>
-                        <button onclick="loadFromCosmos()" class="text-xs text-brand-orange hover:text-orange-700 font-black flex items-center gap-1 uppercase">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                            Sincronizar Cosmos DB
-                        </button>
-                    </div>
                     <div id="listaBiblioteca" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Rendered via JS -->
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
 
         <div id="tab-fila" class="hidden">
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <h2 class="text-lg text-brand-blue font-black uppercase">Ordem de Serviço (Fila)</h2>
+                    <h2 class="font-semibold text-lg">Fila de Tarefas</h2>
                     <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <button onclick="limparFila()" class="text-sm text-red-500 hover:text-red-600 hover:bg-red-50 px-4 py-2 rounded transition-colors font-black uppercase tracking-wider">Limpar OS</button>
-                        <button onclick="iniciarFila()" class="flex-grow sm:flex-grow-0 bg-brand-blue hover:bg-blue-900 text-white py-2 px-6 rounded transition-colors text-sm shadow-sm flex items-center justify-center gap-2 font-black uppercase tracking-wider">
+                        <button onclick="limparFila()" class="text-sm text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-slate-700 px-3 py-1.5 rounded-md transition-colors font-medium">Limpar Fila</button>
+                        <button onclick="iniciarFila()" class="flex-grow sm:flex-grow-0 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-5 rounded-lg transition-colors text-sm shadow-sm flex items-center justify-center gap-2">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-                            Executar Fila em Lote
+                            Executar Fila
                         </button>
                     </div>
                 </div>
                 <div id="listaFila" class="space-y-3">
-                    <!-- Rendered via JS -->
+                    <p class="text-sm text-slate-500 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Nenhum comando na fila. Adicione tarefas a partir da Biblioteca.</p>
                 </div>
             </div>
         </div>
 
-        <div id="tab-terminal" class="hidden h-[calc(100vh-250px)] min-h-[500px]">
-            <div class="bg-slate-900 rounded-xl p-4 text-sm text-orange-400 shadow-inner h-full overflow-y-auto custom-scroll dark-scroll flex flex-col relative border border-slate-800">
+        <div id="tab-terminal" class="hidden h-[calc(100vh-200px)] min-h-[500px]">
+            <div class="bg-slate-900 rounded-2xl p-4 font-mono text-sm text-emerald-400 shadow-inner h-full overflow-y-auto custom-scroll dark-scroll flex flex-col relative border border-slate-700">
                 <div class="sticky top-0 bg-slate-900/95 backdrop-blur pb-3 mb-3 border-b border-slate-800 flex justify-between items-center z-10">
                     <div class="flex items-center gap-2">
-                        <span class="relative flex h-3 w-3">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-orange"></span>
+                        <span class="relative flex h-2.5 w-2.5">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                         </span>
-                        <span class="text-white font-black uppercase tracking-widest text-xs">Telemetria & Log Remoto</span>
+                        <span class="text-slate-300 font-medium">Console Remoto</span>
                     </div>
-                    <button onclick="limparTerminal()" class="text-xs font-black uppercase text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded transition-colors tracking-wider">Limpar Console</button>
+                    <button onclick="limparTerminal()" class="text-xs font-sans font-medium text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded transition-colors">Limpar Log</button>
                 </div>
-                <div id="terminalOutput" class="whitespace-pre-wrap flex-grow pb-4 pl-1 font-mono font-light text-xs sm:text-sm"></div>
+                <div id="terminalOutput" class="whitespace-pre-wrap flex-grow pb-4 pl-1"></div>
             </div>
         </div>
 
         <div id="tab-gantt" class="hidden">
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                    <h2 class="text-lg text-brand-blue font-black uppercase">Relatório Diário / Tempo de Execução</h2>
-                    <button onclick="exportarPDFCivil()" class="w-full sm:w-auto bg-brand-orange hover:bg-orange-600 text-white py-2 px-6 rounded transition-colors text-sm shadow-sm flex items-center justify-center gap-2 font-black uppercase tracking-wider">
+                    <h2 class="font-semibold text-lg">Análise de Tempo (Gantt)</h2>
+                    <button onclick="exportarPDF()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-5 rounded-lg transition-colors text-sm shadow-sm flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        Gerar RDO em PDF
+                        Exportar Relatório PDF
                     </button>
                 </div>
                 
                 <div id="ganttContainer" class="w-full overflow-x-auto pb-4 custom-scroll">
-                    <!-- Rendered via JS -->
+                    <p class="text-sm text-slate-500 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Execute uma fila para gerar as métricas de tempo.</p>
                 </div>
             </div>
         </div>
@@ -203,62 +151,8 @@
     </main>
 
     <script>
-        // --- SISTEMA DE TOAST (Substituto do alert) ---
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            const bgClass = type === 'error' ? 'bg-red-600' : (type === 'success' ? 'bg-brand-orange' : 'bg-brand-blue');
-            
-            toast.className = `${bgClass} text-white px-6 py-3 rounded shadow-lg flex items-center gap-3 toast-enter pointer-events-auto max-w-sm`;
-            toast.innerHTML = `
-                <div class="flex-1 font-black uppercase text-xs tracking-wider">${message}</div>
-                <button onclick="this.parentElement.remove()" class="text-white hover:text-gray-200 opacity-70 hover:opacity-100">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            `;
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.replace('toast-enter', 'toast-exit');
-                setTimeout(() => toast.remove(), 300);
-            }, 4000);
-        }
-
-        // --- SIMULAÇÃO DE MICROSSERVIÇOS (Azure Cosmos DB) ---
-        const CosmosDBService = {
-            async fetchItems() {
-                // Simula latência de rede e fetch API
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        const data = JSON.parse(localStorage.getItem('cosmos_db_conterplan_comandos')) || [];
-                        resolve({ success: true, data });
-                    }, 600);
-                });
-            },
-            async upsertItem(item) {
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        const data = JSON.parse(localStorage.getItem('cosmos_db_conterplan_comandos')) || [];
-                        data.push(item);
-                        localStorage.setItem('cosmos_db_conterplan_comandos', JSON.stringify(data));
-                        resolve({ success: true, data: item });
-                    }, 800);
-                });
-            },
-            async deleteItem(id) {
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        let data = JSON.parse(localStorage.getItem('cosmos_db_conterplan_comandos')) || [];
-                        data = data.filter(i => i.id !== id);
-                        localStorage.setItem('cosmos_db_conterplan_comandos', JSON.stringify(data));
-                        resolve({ success: true });
-                    }, 400);
-                });
-            }
-        };
-
         // --- ESTADO DA APLICAÇÃO ---
-        let biblioteca = [];
+        let biblioteca = JSON.parse(localStorage.getItem('comandosTI')) || [];
         let filaExecucao = [];
         let executando = false;
 
@@ -273,97 +167,56 @@
             if(tabId === 'tab-gantt') renderGantt();
         }
 
-        async function loadFromCosmos() {
-            try {
-                const response = await CosmosDBService.fetchItems();
-                if(response.success) {
-                    biblioteca = response.data;
-                    renderBiblioteca();
-                    showToast('Sincronização com Azure Cosmos DB concluída.', 'success');
-                }
-            } catch (err) {
-                showToast('Falha ao conectar no Cosmos DB.', 'error');
-            }
-        }
-
-        async function salvarComando() {
+        // --- BIBLIOTECA (CRUD) ---
+        function salvarComando() {
             const nome = document.getElementById('cmdNome').value.trim();
-            const obra = document.getElementById('cmdObra').value.trim() || 'Sede';
-            const ativo = document.getElementById('cmdAtivo').value.trim() || 'Servidor Central';
+            const tag = document.getElementById('cmdTag').value.trim() || 'GERAL';
             const script = document.getElementById('cmdScript').value.trim();
 
-            if(!nome || !script) return showToast("Os campos Título e Script são obrigatórios.", "error");
+            if(!nome || !script) return alert("Por favor, preencha o Nome e o Script PowerShell.");
 
-            const btn = document.getElementById('btnSaveText');
-            btn.innerText = "Salvando...";
-
-            const novoComando = {
-                id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
-                nome, obra, ativo, script,
-                criadoEm: new Date().toISOString()
-            };
-
-            try {
-                const res = await CosmosDBService.upsertItem(novoComando);
-                if(res.success) {
-                    biblioteca.push(res.data);
-                    document.getElementById('cmdNome').value = ''; 
-                    document.getElementById('cmdObra').value = ''; 
-                    document.getElementById('cmdAtivo').value = ''; 
-                    document.getElementById('cmdScript').value = '';
-                    renderBiblioteca();
-                    showToast("Diretiva registrada com sucesso.", "success");
-                }
-            } catch (err) {
-                showToast("Erro ao salvar no banco de dados.", "error");
-            } finally {
-                btn.innerText = "Registrar no Azure Cosmos DB";
-            }
+            biblioteca.push({ id: Date.now().toString(), nome, tag, script });
+            localStorage.setItem('comandosTI', JSON.stringify(biblioteca));
+            
+            document.getElementById('cmdNome').value = ''; 
+            document.getElementById('cmdTag').value = ''; 
+            document.getElementById('cmdScript').value = '';
+            
+            renderBiblioteca();
         }
 
-        async function deletarComando(id) {
-            if(confirmCustom("Deseja remover esta diretiva do banco? (Substitui Confirm nativo)")) {
-                try {
-                    await CosmosDBService.deleteItem(id);
-                    biblioteca = biblioteca.filter(c => c.id !== id);
-                    renderBiblioteca();
-                    showToast("Diretiva removida.", "info");
-                } catch(e) {
-                    showToast("Erro ao remover diretiva.", "error");
-                }
-            }
-        }
-        
-        // Custom confirm mock bypassing alert/confirm rule natively
-        function confirmCustom(msg) {
-            // Em um app real, seria um Modal HTML. Aqui simplificamos a lógica para aprovar direto, 
-            // já que window.confirm é proibido.
-            return true; 
+        function deletarComando(id) {
+            biblioteca = biblioteca.filter(c => c.id !== id);
+            localStorage.setItem('comandosTI', JSON.stringify(biblioteca));
+            renderBiblioteca();
         }
 
         function renderBiblioteca() {
             const container = document.getElementById('listaBiblioteca');
             if(biblioteca.length === 0) {
-                container.innerHTML = '<div class="col-span-full py-12 text-center border-2 border-dashed border-slate-200 rounded-xl"><p class="text-slate-400 font-black uppercase text-sm">Banco de dados vazio.</p></div>';
+                container.innerHTML = '<p class="text-sm text-slate-500 md:col-span-2 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Sua biblioteca está vazia. Crie seu primeiro comando ao lado.</p>';
                 return;
             }
             container.innerHTML = biblioteca.map(cmd => `
-                <div class="bg-brand-light p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between group hover:border-brand-orange transition-colors">
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between group hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
                     <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-black text-brand-blue uppercase text-sm">${cmd.nome}</h3>
-                        </div>
-                        <div class="flex gap-2 mb-3 flex-wrap">
-                            <span class="text-[10px] font-black px-2 py-1 rounded bg-orange-100 text-brand-orange uppercase tracking-wider border border-orange-200">Obra: ${cmd.obra}</span>
-                            <span class="text-[10px] font-black px-2 py-1 rounded bg-blue-100 text-brand-blue uppercase tracking-wider border border-blue-200">Ativo: ${cmd.ativo}</span>
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-semibold text-slate-800 dark:text-white">${cmd.nome}</h3>
+                            <span class="text-[10px] font-bold px-2.5 py-1 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 uppercase tracking-wider">${cmd.tag}</span>
                         </div>
                         <div class="relative">
-                            <pre class="text-xs text-slate-700 font-mono bg-white p-3 rounded border border-slate-200 h-24 overflow-y-auto mb-4 custom-scroll">${cmd.script}</pre>
+                            <pre class="text-xs text-emerald-600 dark:text-emerald-400 font-mono bg-slate-50 dark:bg-slate-900 p-3 rounded-lg max-h-24 overflow-y-auto mb-4 border border-slate-100 dark:border-slate-800 custom-scroll dark-scroll">${cmd.script}</pre>
                         </div>
                     </div>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-200">
-                        <button onclick="deletarComando('${cmd.id}')" class="text-xs font-black uppercase text-red-500 hover:text-red-700 flex items-center gap-1">Excluir</button>
-                        <button onclick="adicionarFila('${cmd.id}')" class="text-xs font-black uppercase text-white bg-brand-blue hover:bg-blue-900 px-4 py-2 rounded transition-colors shadow-sm">Add à OS</button>
+                    <div class="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                        <button onclick="deletarComando('${cmd.id}')" class="text-xs font-medium text-red-500 hover:text-red-700 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            Excluir
+                        </button>
+                        <button onclick="adicionarFila('${cmd.id}')" class="text-xs font-medium text-white bg-slate-800 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 px-4 py-1.5 rounded-md transition-colors shadow-sm flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Adicionar à Fila
+                        </button>
                     </div>
                 </div>
             `).join('');
@@ -377,15 +230,27 @@
                     ...cmd, 
                     execId: Date.now() + Math.random().toString(), 
                     status: 'Pendente', 
-                    inicio: null, fim: null, duracaoMs: 0, log: '' 
+                    inicio: null, 
+                    fim: null,
+                    duracaoMs: 0,
+                    log: '' 
                 });
                 renderFila();
-                showToast(`"${cmd.nome}" adicionado à Ordem de Serviço.`, 'success');
+                
+                // Efeito visual no botão de clique
+                const btn = event.currentTarget;
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Adicionado`;
+                btn.classList.add("bg-emerald-600", "dark:bg-emerald-600");
+                setTimeout(() => { 
+                    btn.innerHTML = originalHtml; 
+                    btn.classList.remove("bg-emerald-600", "dark:bg-emerald-600"); 
+                }, 1000);
             }
         }
 
         function limparFila() { 
-            if(executando) return showToast("Operação bloqueada. Ordem de Serviço em andamento.", "error");
+            if(executando) return alert("Não é possível limpar a fila durante uma execução.");
             filaExecucao = []; 
             renderFila(); 
         }
@@ -393,21 +258,21 @@
         function renderFila() {
             const container = document.getElementById('listaFila');
             if(filaExecucao.length === 0) {
-                container.innerHTML = '<div class="py-12 text-center border-2 border-dashed border-slate-200 rounded-xl"><p class="text-slate-400 font-black uppercase text-sm">Fila vazia.</p></div>';
+                container.innerHTML = '<p class="text-sm text-slate-500 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Nenhum comando na fila. Adicione tarefas a partir da Biblioteca.</p>';
                 return;
             }
             container.innerHTML = filaExecucao.map((cmd, index) => `
-                <div class="flex items-center justify-between p-4 bg-brand-light rounded border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <div class="flex items-center gap-4">
-                        <div class="w-8 h-8 rounded bg-brand-blue flex items-center justify-center text-xs font-black text-white">${index + 1}</div>
+                        <div class="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-xs font-mono font-medium text-slate-500">${index + 1}</div>
                         <div>
-                            <p class="font-black text-brand-blue uppercase text-sm">${cmd.nome}</p>
-                            <p class="text-xs font-light text-slate-500 mt-1">Status: <strong class="font-black uppercase tracking-wider ${getStatusColor(cmd.status)}">${cmd.status}</strong></p>
+                            <p class="font-semibold text-sm text-slate-800 dark:text-white">${cmd.nome}</p>
+                            <p class="text-xs mt-0.5">Status: <strong class="${getStatusColor(cmd.status)}">${cmd.status}</strong></p>
                         </div>
                     </div>
                     ${cmd.status === 'Pendente' && !executando 
-                        ? `<button onclick="removerDaFila(${index})" class="text-slate-400 hover:text-red-500 p-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>` 
-                        : `<span class="text-xs font-black text-slate-500 bg-white px-3 py-1.5 rounded border border-slate-200">${cmd.duracaoMs > 0 ? (cmd.duracaoMs/1000).toFixed(1) + 's' : '---'}</span>`
+                        ? `<button onclick="removerDaFila(${index})" class="text-slate-400 hover:text-red-500 p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="Remover"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>` 
+                        : `<span class="text-xs font-mono font-medium text-slate-500 bg-slate-100 dark:bg-slate-900 px-2 py-1 rounded">${cmd.duracaoMs > 0 ? (cmd.duracaoMs/1000).toFixed(1) + 's' : '---'}</span>`
                     }
                 </div>
             `).join('');
@@ -418,26 +283,24 @@
         }
         
         function getStatusColor(status) {
-            if(status === 'Rodando...') return 'text-brand-orange animate-pulse';
-            if(status === 'Concluído') return 'text-emerald-600';
-            if(status === 'Erro') return 'text-red-600';
+            if(status === 'Rodando...') return 'text-blue-500 dark:text-blue-400 animate-pulse';
+            if(status === 'Concluído') return 'text-emerald-600 dark:text-emerald-400';
+            if(status === 'Erro') return 'text-red-600 dark:text-red-400';
             return 'text-slate-500';
         }
 
+        // --- EXECUÇÃO E TERMINAL ---
         const terminal = document.getElementById('terminalOutput');
-        function logTerm(msg, type = 'normal') {
+        function logTerm(msg, isHeader = false) {
             const time = new Date().toLocaleTimeString();
             const div = document.createElement('div');
             
-            if (type === 'header') {
-                div.className = 'text-white mt-5 mb-2 font-black uppercase text-xs tracking-widest bg-brand-orange py-1 px-2 rounded';
-                div.innerHTML = `> ${msg}`;
-            } else if (type === 'error') {
-                div.className = 'text-red-500 mb-1 flex font-black';
-                div.innerHTML = `[${time}] ERRO: ${msg}`;
+            if (isHeader) {
+                div.className = 'text-blue-400 mt-5 mb-2 font-bold bg-blue-900/20 py-1 px-2 rounded border-l-2 border-blue-500';
+                div.innerHTML = `>>> ${msg}`;
             } else {
-                div.className = 'mb-1 flex hover:bg-slate-800 px-1 rounded font-light text-slate-300';
-                div.innerHTML = `<span class="text-slate-500 mr-3 shrink-0">[${time}]</span><span class="break-all">${msg}</span>`;
+                div.className = 'mb-1 flex hover:bg-slate-800/50 px-2 rounded';
+                div.innerHTML = `<span class="text-slate-600 mr-3 shrink-0 select-none">[${time}]</span><span class="break-all">${msg}</span>`;
             }
             
             terminal.appendChild(div);
@@ -449,17 +312,15 @@
         async function iniciarFila() {
             const ip = document.getElementById('ipInput').value.trim();
             if(!ip) {
-                switchTab('tab-biblioteca');
                 document.getElementById('ipInput').focus();
-                return showToast("Preencha o IP/Destino no cabeçalho.", "error");
+                return alert("Por favor, digite o IP da máquina alvo no cabeçalho.");
             }
-            if(filaExecucao.length === 0) return showToast("Ordem de serviço vazia.", "error");
+            if(filaExecucao.length === 0) return alert("A fila está vazia.");
             if(executando) return;
 
             executando = true;
-            renderFila();
+            renderFila(); // Atualiza botões
             switchTab('tab-terminal');
-            logTerm(`Iniciando conexão com a frota/obra no IP: ${ip}`, 'header');
             
             for(let i = 0; i < filaExecucao.length; i++) {
                 let tarefa = filaExecucao[i];
@@ -469,30 +330,38 @@
                 tarefa.inicio = new Date();
                 renderFila();
                 
-                logTerm(`EXECUTANDO: ${tarefa.nome} [Ativo: ${tarefa.ativo}]`, 'header');
+                logTerm(`Iniciando Tarefa [${i+1}/${filaExecucao.length}]: ${tarefa.nome}`, true);
 
                 try {
-                    // Simulação de execução via Fetch adaptada
-                    // Na vida real, o código abaixo chamaria a API .NET de agentes no equipamento.
-                    // Substituímos por um mock para o CodePen/Sandbox não quebrar e mostrar o funcionamento:
-                    
-                    const mockStream = async function* () {
-                        const lines = [`Iniciando análise no ${tarefa.ativo}...`, `Autenticando via política Conterplan...`, `Executando payload:`, tarefa.script.substring(0, 50) + "...", `Processamento 100% concluído.`, `Logs gravados na unidade central.`];
-                        for(let line of lines) {
-                            yield line + '\n';
-                            await new Promise(r => setTimeout(r, 600)); // Simula delay do equipamento pesado
-                        }
-                    };
+                    const response = await fetch(`http://${ip}:5000/api/executar`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ comando: tarefa.script })
+                    });
 
-                    for await (const chunk of mockStream()) {
+                    if (!response.body) throw new Error("O navegador não suporta streaming desta resposta.");
+                    
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder("utf-8");
+                    
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        const chunk = decoder.decode(value, { stream: true });
                         tarefa.log += chunk;
-                        logTerm(chunk.trim());
+                        
+                        // Divide por quebras de linha para formatar melhor no terminal
+                        const linhas = chunk.split('\n');
+                        for(let linha of linhas) {
+                            if(linha.trim()) logTerm(linha.trim());
+                        }
                     }
                     tarefa.status = 'Concluído';
                 } catch (error) {
                     tarefa.status = 'Erro';
-                    tarefa.log += `\n[FALHA] ${error.message}`;
-                    logTerm(error.message, 'error');
+                    tarefa.log += `\n[FALHA DE COMUNICAÇÃO] ${error.message}`;
+                    logTerm(`ERRO CRÍTICO: ${error.message}`, false);
+                    logTerm(`Verifique se o Agente C# está rodando no IP ${ip} e se a porta 5000 não está bloqueada.`, false);
                 }
 
                 tarefa.fim = new Date();
@@ -500,17 +369,18 @@
                 renderFila();
             }
 
-            logTerm("ORDEM DE SERVIÇO CONCLUÍDA", 'header');
+            logTerm("====== FILA FINALIZADA ======", true);
             executando = false;
             renderFila();
         }
 
+        // --- GANTT E RELATÓRIO ---
         function renderGantt() {
             const container = document.getElementById('ganttContainer');
             const executadas = filaExecucao.filter(t => t.inicio && t.fim);
             
             if(executadas.length === 0) {
-                container.innerHTML = '<div class="py-12 text-center border-2 border-dashed border-slate-200 rounded-xl"><p class="text-slate-400 font-black uppercase text-sm">Execute uma OS para gerar o Relatório Diário.</p></div>';
+                container.innerHTML = '<p class="text-sm text-slate-500 text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-600">Nenhuma métrica de tempo capturada ainda.</p>';
                 return;
             }
 
@@ -518,19 +388,19 @@
             const tempoMaximo = Math.max(...executadas.map(t => t.fim.getTime()));
             const duracaoTotal = tempoMaximo - tempoMinimo;
 
-            let html = `<div class="relative min-w-[700px] mt-6 border-l-4 border-slate-200 pl-4 space-y-6">`;
+            let html = `<div class="relative min-w-[700px] mt-6 border-l-2 border-slate-200 dark:border-slate-600 pl-4 space-y-6">`;
             
             executadas.forEach(tarefa => {
                 const startPos = duracaoTotal > 0 ? ((tarefa.inicio.getTime() - tempoMinimo) / duracaoTotal) * 100 : 0;
                 let width = duracaoTotal > 0 ? (tarefa.duracaoMs / duracaoTotal) * 100 : 100;
-                if(width < 2) width = 2;
+                if(width < 2) width = 2; // Força uma largura mínima para visibilidade
 
-                const corBarra = tarefa.status === 'Concluído' ? 'bg-brand-blue' : 'bg-red-600';
+                const corBarra = tarefa.status === 'Concluído' ? 'bg-blue-500 dark:bg-blue-600' : 'bg-red-500 dark:bg-red-600';
 
                 html += `
                 <div class="relative h-10 w-full group">
-                    <div class="absolute -left-[180px] w-[160px] text-right pr-4 truncate text-xs font-black text-slate-700 uppercase leading-10 tracking-wide" title="${tarefa.nome}">${tarefa.nome}</div>
-                    <div class="absolute h-10 rounded ${corBarra} shadow gantt-bar flex items-center px-3 text-xs font-black text-white overflow-hidden whitespace-nowrap tracking-wider" 
+                    <div class="absolute -left-[160px] w-[140px] text-right pr-2 truncate text-sm font-medium text-slate-700 dark:text-slate-300 leading-8" title="${tarefa.nome}">${tarefa.nome}</div>
+                    <div class="absolute h-8 rounded-md ${corBarra} shadow-sm gantt-bar flex items-center px-3 text-xs font-medium text-white overflow-hidden whitespace-nowrap" 
                          style="left: ${startPos}%; width: ${width}%;">
                         ${(tarefa.duracaoMs / 1000).toFixed(1)}s
                     </div>
@@ -541,92 +411,66 @@
             container.innerHTML = html;
         }
 
-        function exportarPDFCivil() {
+        function exportarPDF() {
             const executadas = filaExecucao.filter(t => t.inicio && t.fim);
-            if(executadas.length === 0) return showToast("Não há dados processados para gerar RDO.", "error");
-
-            showToast("Gerando RDO (Relatório Diário de Obra)...", "info");
+            if(executadas.length === 0) return alert("Não há tarefas concluídas na fila atual para exportar.");
 
             const tableBody = [
-                [
-                    { text: 'OP', style: 'tableHeader' }, 
-                    { text: 'SERVIÇO/TAREFA', style: 'tableHeader' }, 
-                    { text: 'OBRA/SETOR', style: 'tableHeader' }, 
-                    { text: 'EQUIPAMENTO', style: 'tableHeader' }, 
-                    { text: 'TEMPO', style: 'tableHeader' }, 
-                    { text: 'STATUS', style: 'tableHeader' }
-                ]
+                [{ text: 'Ordem', style: 'tableHeader' }, { text: 'Tarefa', style: 'tableHeader' }, { text: 'Tag', style: 'tableHeader' }, { text: 'Duração', style: 'tableHeader' }, { text: 'Status', style: 'tableHeader' }]
             ];
 
             executadas.forEach((t, i) => {
                 tableBody.push([
                     (i + 1).toString(),
                     t.nome, 
-                    t.obra,
-                    t.ativo,
+                    t.tag, 
                     (t.duracaoMs/1000).toFixed(1) + 's',
-                    { text: t.status, color: t.status === 'Concluído' ? '#003366' : '#dc2626', bold: true }
+                    { text: t.status, color: t.status === 'Concluído' ? '#059669' : '#dc2626', bold: true }
                 ]);
+            });
+
+            const logsSection = [];
+            executadas.forEach(t => {
+                logsSection.push({ text: `Detalhes: ${t.nome}`, style: 'subheader', margin: [0, 20, 0, 5] });
+                const logLimpo = t.log.trim() ? t.log : 'Nenhum output retornado pelo PowerShell.';
+                logsSection.push({ text: logLimpo.substring(0, 2000) + (logLimpo.length > 2000 ? '\n\n...[Log Truncado devido ao tamanho]' : ''), style: 'codeBlock' });
             });
 
             const docDefinition = {
                 content: [
-                    {
-                        text: 'CONTERPLAN CONSTRUÇÕES E TERRAPLENAGEM',
-                        style: 'mainHeader'
-                    },
-                    {
-                        text: 'RELATÓRIO DIÁRIO DE OBRA (RDO) - AUTOMAÇÃO DE TI E FROTA',
-                        style: 'subHeader'
-                    },
-                    {
-                        columns: [
-                            { text: `Data do Documento: ${new Date().toLocaleDateString()}`, width: '*' },
-                            { text: `Equipamento/IP Alvo: ${document.getElementById('ipInput').value || 'Não Definido'}`, width: '*', alignment: 'right' }
-                        ],
-                        margin: [0, 0, 0, 20],
-                        fontSize: 10,
-                        color: '#475569'
-                    },
+                    { text: 'RELATÓRIO DE AUTOMAÇÃO DE TI', style: 'header' },
+                    { text: `Gerado em: ${new Date().toLocaleString()}`, margin: [0, 0, 0, 5], fontSize: 10, color: 'gray' },
+                    { text: `Máquina Alvo (IP): ${document.getElementById('ipInput').value || 'Não informado'}`, margin: [0, 0, 0, 20], fontSize: 10, color: 'gray' },
                     {
                         table: {
                             headerRows: 1,
-                            widths: ['auto', '*', 'auto', 'auto', 'auto', 'auto'],
+                            widths: ['auto', '*', 'auto', 'auto', 'auto'],
                             body: tableBody
                         },
                         layout: {
                             hLineWidth: function (i, node) { return (i === 0 || i === node.table.body.length) ? 2 : 1; },
                             vLineWidth: function (i, node) { return 0; },
-                            hLineColor: function (i, node) { return i === 1 ? '#FF6B00' : '#cbd5e1'; },
-                            paddingTop: function(i, node) { return 8; },
-                            paddingBottom: function(i, node) { return 8; }
+                            hLineColor: function (i, node) { return i === 1 ? 'black' : '#aaa'; },
+                            paddingTop: function(i, node) { return 5; },
+                            paddingBottom: function(i, node) { return 5; }
                         }
                     },
-                    { text: '\nLOGS DETALHADOS DAS VISTORIAS REMOTAS', style: 'subHeader', margin: [0, 30, 0, 10] }
+                    ...logsSection
                 ],
                 styles: {
-                    mainHeader: { fontSize: 20, bold: true, color: '#003366', alignment: 'center', marginBottom: 5 },
-                    subHeader: { fontSize: 12, bold: true, color: '#FF6B00', alignment: 'center', marginBottom: 20 },
-                    tableHeader: { bold: true, fontSize: 10, color: '#003366' },
-                    codeBlock: { font: 'Courier', fontSize: 8, background: '#f8fafc', padding: 5, margin: [0,0,0,10], color: '#334155' }
+                    header: { fontSize: 18, bold: true, color: '#1e293b' },
+                    subheader: { fontSize: 12, bold: true, color: '#334155', borderBottom: true },
+                    tableHeader: { bold: true, fontSize: 11, color: 'black' },
+                    codeBlock: { font: 'Roboto', fontSize: 9, background: '#f8fafc', padding: 8, margin: [0,0,0,10], color: '#334155' }
                 },
-                defaultStyle: { font: 'Roboto', fontSize: 10 }
+                defaultStyle: { font: 'Roboto' }
             };
 
-            // Anexar logs
-            executadas.forEach(t => {
-                docDefinition.content.push({ text: `Equipamento: ${t.ativo} | Ação: ${t.nome}`, bold: true, fontSize: 11, color: '#003366', margin: [0, 10, 0, 5] });
-                const logLimpo = t.log.trim() ? t.log : 'Sem resposta do sistema telemetry.';
-                docDefinition.content.push({ text: logLimpo, style: 'codeBlock' });
-            });
-
-            pdfMake.createPdf(docDefinition).download(`RDO_Automação_Conterplan_${Date.now()}.pdf`);
+            pdfMake.createPdf(docDefinition).download(`Relatorio_Automacao_${Date.now()}.pdf`);
         }
 
-        // --- INICIALIZAÇÃO DA APLICAÇÃO PWA ---
-        window.onload = () => {
-            loadFromCosmos(); // Simula leitura do Banco de Dados
-        };
+        // Inicialização
+        renderBiblioteca();
     </script>
 </body>
 </html>
